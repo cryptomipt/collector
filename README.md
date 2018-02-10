@@ -1,38 +1,27 @@
-[![Build Status](https://travis-ci.org/EthVentures/CryptoTracker.svg?branch=master)](https://travis-ci.org/EthVentures/CryptoTracker)
-# CryptoTracker
-CryptoTracker makes it easy for you to collect, store, analyze, visualize, and monitor cryptocurrency data. You can use this open source project to track Price, Bid/Ask Spreads, Size, and Volume, test hypotheses about markets, build machine learning models to predict price movements, understand volatility, arbitrage / algorithmically trade, and more. CryptoTracker enables high-quality cryptocurrency R&D across all major exchanges.
+# Collector
+This is a complete setup for collecting, storing, analyzing, visualizing, and monitoring cryptocurrency data. You can use this open source project to track Price, Bid/Ask Spreads, Size, and Volume, test hypotheses about markets, build machine learning models to predict price movements, understand volatility, arbitrage / algorithmically trade, and more. 
 
 Pull Requests welcome and encouraged.
 
-# Supported Exchanges
- 1. [BitFinex](https://bitfinex.com/)
- 2. [BitTrex](https://bittrex.com/)
- 3. [Bitmex](https://bitmex.com/)
- 4. [GDAX](https://gdax.com)
- 5. [Gemini](https://gemini.com)
- 6. [Kraken](https://kraken.com)
- 7. [OKCoin](https://www.okcoin.com/)
- 8. [Poloniex](https://poloniex.com)
- 9. [BitMex](https://www.bitmex.com)
+# Supported Exchanges (through ccxt)
+ 1. [BitTrex](https://bittrex.com/)
+ 2. [Kraken](https://kraken.com)
+ 3. [Cryptopia](https://www.cryptopia.co.nz/)
+ 4. [Poloniex](https://poloniex.com)
+ 5. [BitMex](https://www.bitmex.com)
 
-# Screenshots
+# Examples of data visualization
 
 ![Dashboard 1](./resources/img/Dashboard.png "Dashboard 1")
 
-![Dashboard 2](./resources/img/Dashboard2.png "Dashboard 2")
-
 # Requirements
 1. [Docker](https://www.docker.com/community-edition)
-
-# Optional Configuration
-1. Adjust timer settings in settings.py
-2. Verbosity of logs can be configured in default.env
 
 # Running
 ```js
 docker-compose build && docker-compose up
 ```
-This command will build and launch 3 docker containers: Elasticsearch, Kibana, and python2.7. Elasticsearch is used as our datastore, Kibana is used to setup visualizations and dashboards, and python2.7 operates our application. Elasticsearch and Kibana are customizable via .yml and Dockerfiles (included), and python2.7 is automatically configured for you to run after an initial setup delay. Once the system loads, which could take a few minutes, you should be able to navigate to Kibana to see all of the data that's flowing from the exchanges into Elasticsearch.
+This command will build and launch 3 docker containers: Elasticsearch, Kibana, and python3. Elasticsearch is used as our datastore, Kibana is used to setup visualizations and dashboards, and python3 operates an asynchronous collector that request and store exchange data. Elasticsearch and Kibana are customizable via .yml and Dockerfiles (included). Once the system loads, which could take a few minutes, you should be able to navigate to Kibana to see all of the data that's flowing from the exchanges into Elasticsearch.
 
 http://localhost:5601/
 
@@ -55,6 +44,6 @@ btc.*.ticker
 
 # Additional Resources
 In a development environment, a kibana configuration script is provided at resources/configure-kibana.sh to help automatically set default indexes, set refresh timers, and import all the graphs/dashboards. This configuration script is not recommended in production yet due to occasional issues with the discover tab not responding after import.
-# Provided By
 
-[![EthVentures](https://github.com/EthVentures/CryptoTracker/raw/master/resources/img/ethventures-logo.png)](https://ethventures.io)
+# License information
+This software is originally based on https://github.com/ferluht/CryptoTracker which is fork of https://github.com/EthVentures/CryptoTracker by EthVentures. 
