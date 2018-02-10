@@ -5,6 +5,8 @@ services:
       volumes:
         - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
 #        - ./elasticsearch/data:/usr/share/elasticsearch/data
+      logging:
+        driver: none
       ports:
         - "9200:9200"
         - "9300:9300"
@@ -18,12 +20,16 @@ services:
         - ./kibana/config/:/usr/share/kibana/config
       ports:
         - "5601:5601"
+      logging:
+        driver: none
       links:
         - elasticsearch
       restart: always
 
     app:
       build: app/
+      logging:
+        driver: none
       depends_on:
         - elasticsearch
       links:
