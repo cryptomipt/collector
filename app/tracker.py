@@ -21,8 +21,9 @@ def main():
     logging.info('Market Refresh Rate: ' + str(settings.MARKET_REFRESH_RATE) + ' seconds.')
     logging.info('Initial Sleep: ' + str(5) + ' seconds.')
 
-    logging.info('Application Started.')
-    RESTful_exchanges = ['bittrex', 'kraken', 'poloniex', 'kucoin', 'cryptopia']
+    # logging.info('Application Started.')
+    # RESTful_exchanges = ['bittrex', 'kraken', 'poloniex', 'kucoin', 'cryptopia']
+    RESTful_exchanges = ['bitmex']
     exchanges = [ExchangeHarness(x) for x in RESTful_exchanges]
 
     # print active exchanges and create indexes in kibana based on products listed in each market

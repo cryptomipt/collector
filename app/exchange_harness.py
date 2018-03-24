@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from json import loads
 from datetime import datetime
-import settings
+# import settings
 import logging
 import requests
 import utils
@@ -14,33 +14,42 @@ class ExchangeHarness(object):
 
     pairs = {
         'usd': ['btc', 'bch', 'eth', 'iota', 'xrp', 'xmr', 'omg', 'neo', 'eos', 'qtum', 'waves'],
-        'btc': ['bch', 'eth', 'xrp', 'neo']
+        'btc': ['bch', 'eth', 'xrp', 'neo'],
+        'xbt': ['bch', 'eth', 'usd', 'xrp']
     }
 
     def __init__(self, exchange_id):
         self.exchange = getattr(ccxt, exchange_id)({ 'timeout': 10000 })
 
-        loop = asyncio.get_event_loop()
-        markets = loop.run_until_complete(self.exchange.load_markets())
+        if exchange_id == 'bitmex':
+            self.symbols = {
+                '.XBT': 'btcusd',
+                '.BCHXBT': 'bchbtc',
+                '.XBT30M': 'btcusd30m',
+                '.ETHXBT': 'btceth'
+            }
+        else:
+            loop = asyncio.get_event_loop()
+            markets = loop.run_until_complete(self.exchange.load_markets())
 
-        self.symbols = {}
+            self.symbols = {}
 
-        logging.info('Loaded markets for {}'.format(self.exchange.id))
+            logging.info('Loaded markets for {}'.format(self.exchange.id))
 
-        for symbol in markets:
-            done = False
-            for base in ExchangeHarness.pairs:
-                for quote in ExchangeHarness.pairs[base]:
-                    if (base in symbol and quote in symbol) or \
-                            (base.upper() in symbol and quote.upper() in symbol):
-                        if not '.' in symbol:
-                            self.symbols[symbol] = '{}{}'.format(base.lower(), quote.lower())
-                            done = True
-                            break
-                if done:
-                    break
+            for symbol in markets:
+                done = False
+                for base in ExchangeHarness.pairs:
+                    for quote in ExchangeHarness.pairs[base]:
+                        if (base in symbol and quote in symbol) or \
+                                (base.upper() in symbol and quote.upper() in symbol):
+                            if not '.' in symbol:
+                                self.symbols[symbol] = '{}{}'.format(base.lower(), quote.lower())
+                                done = True
+                                break
+                    if done:
+                        break
 
-        logging.info('Symbols for {}: {}'.format(self.exchange.id, self.symbols))
+            logging.info('Symbols for {}: {}'.format(self.exchange.id, self.symbols))
 
         self.products = {}
 
